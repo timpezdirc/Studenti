@@ -13,6 +13,7 @@
 
 	Skrita funkcija:
 		- povprecje: izračuna povprečje ocen posameznega študenta
+		- najdiVpisno: najde vpisno številko študenta
 */
 package redovalnica
 
@@ -46,7 +47,7 @@ func DodajOceno(studenti map[string]Student, vpisnaStevilka string, ocena int) {
 		return
 	}
 
-	student.ocene = append(student.ocene, ocena)
+	student.Ocene = append(student.Ocene, ocena)
 
 	studenti[vpisnaStevilka] = student
 	fmt.Println("Študentu", vpisnaStevilka, "je bila dodana ocena", ocena)
@@ -56,7 +57,7 @@ func DodajOceno(studenti map[string]Student, vpisnaStevilka string, ocena int) {
 func IzpisVsehOcen(studenti map[string]Student) {
 	fmt.Println("REDOVALNICA:")
 	for vpisna, student := range studenti {
-		fmt.Printf("%s - %s %s: %v\n", vpisna, student.ime, student.priimek, student.ocene)
+		fmt.Printf("%s - %s %s: %v\n", vpisna, student.Ime, student.Priimek, student.Ocene)
 	}
 }
 
@@ -66,10 +67,10 @@ func IzpisiKoncniUspeh(studenti map[string]Student) {
 	for _, student := range studenti {
 		p := povprecje(studenti, najdiVpisno(studenti, student))
 		if p == -1.0 {
-			fmt.Printf("%s %s: ni podatkov o študentu\n", student.ime, student.priimek)
+			fmt.Printf("%s %s: ni podatkov o študentu\n", student.Ime, student.Priimek)
 			continue
 		}
-		fmt.Printf("%s %s: povprečna ocena %.1f -> ", student.ime, student.priimek, p)
+		fmt.Printf("%s %s: povprečna ocena %.1f -> ", student.Ime, student.Priimek, p)
 		if p >= 9 {
 			fmt.Println("Odličen študent!")
 		} else if p >= 6 {
@@ -87,14 +88,24 @@ func povprecje(studenti map[string]Student, vpisnaStevilka string) float64 {
 		return -1.0
 	}
 
-	if len(student.ocene) < StOcen {
+	if len(student.Ocene) < StOcen {
 		return 0.0
 	}
 
 	vsota := 0
-	for _, ocena := range student.ocene {
+	for _, ocena := range student.Ocene {
 		vsota += ocena
 	}
 
-	return float64(vsota) / float64(len(student.ocene))
+	return float64(vsota) / float64(len(student.Ocene))
+}
+
+// najde vpisno številko od študenta
+func najdiVpisno(studenti map[string]Student, cilj Student) string {
+	for vpisna, s := range studenti {
+		if s.Ime == cilj.Ime && s.Priimek == cilj.Priimek {
+			return vpisna
+		}
+	}
+	return ""
 }

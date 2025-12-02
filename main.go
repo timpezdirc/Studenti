@@ -10,11 +10,11 @@ import (
 )
 
 func main() {
-	studenti := make(map[string]Student)
-
-	studenti["63220000"] = Student{ime: "Janez", priimek: "Novak", ocene: []int{5, 6, 7, 6, 8}}
-	studenti["63220001"] = Student{ime: "Tine", priimek: "Kranjc", ocene: []int{10, 10, 8, 9, 9}}
-	studenti["63220002"] = Student{ime: "Ana", priimek: "Kovač", ocene: []int{10, 6, 7, 6, 9}}
+	studenti := map[string]r.Student{
+		"63220000": {Ime: "Janez", Priimek: "Novak", Ocene: []int{5, 6, 7, 6, 8}},
+		"63220001": {Ime: "Tine", Priimek: "Kranjc", Ocene: []int{10, 10, 8, 9, 9}},
+		"63220002": {Ime: "Ana", Priimek: "Kovač", Ocene: []int{10, 6, 7, 6, 9}},
+	}
 
 	app := &cli.App{
 		Name:  "redovalnica",
